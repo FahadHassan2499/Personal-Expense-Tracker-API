@@ -49,9 +49,10 @@ public class ExpenseService {
     }
 
     public Double getTotalExpense() {
-        return expenseRepository.findAll()
+        double sum = expenseRepository.findAll()
                 .stream()
                 .mapToDouble(Expense::getAmount)
                 .sum();
+        return sum;
     }
 }

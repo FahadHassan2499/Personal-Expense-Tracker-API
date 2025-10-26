@@ -13,9 +13,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ExpenseController {
 
-    @Autowired
-    private final ExpenseService expenseService;
 
+    private ExpenseService expenseService;
+
+    public ExpenseController(ExpenseService expenseService) {
+        this.expenseService = expenseService;
+    }
 
 
     @GetMapping
@@ -29,7 +32,7 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public Expense createExpense(@Valid @RequestBody Expense expense) {
+    public Expense createExpense(@RequestBody Expense expense) {
         return expenseService.createExpense(expense);
     }
 
