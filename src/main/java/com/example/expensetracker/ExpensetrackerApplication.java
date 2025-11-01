@@ -8,7 +8,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class ExpensetrackerApplication {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.load();
+		Dotenv dotenv = Dotenv.configure()
+				.ignoreIfMissing()   // ✅ prevent crash if .env is not present
+				.load();
 		System.setProperty("DB_HOST", dotenv.get("DB_HOST"));
 		System.setProperty("DB_PORT", dotenv.get("DB_PORT"));
 		System.setProperty("DB_NAME", dotenv.get("DB_NAME"));
