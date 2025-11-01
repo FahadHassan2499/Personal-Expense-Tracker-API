@@ -44,9 +44,9 @@ public class ExpenseService {
         expenseRepository.delete(existing);
     }
 
-    public List<Expense> getExpensesByCategory(String category) {
-        return expenseRepository.findByCategoryIgnoreCase(category);
-    }
+//    public List<Expense> getExpensesByCategory(String category) {
+//        return expenseRepository.findByCategoryIgnoreCase(category);
+//    }
 
     public Double getTotalExpense() {
         double sum = expenseRepository.findAll()
