@@ -1,23 +1,21 @@
-# Use an official OpenJDK image
 FROM eclipse-temurin:23-jdk-alpine
-
-# Set the working directory
 WORKDIR /app
 
-# Copy the Maven wrapper and pom.xml files
+# Copy Maven wrapper and ensure it's executable
 COPY mvnw .
 COPY .mvn .mvn
-COPY pom.xml .
+RUN chmod +x mvnw
 
-# Download dependencies (so future builds are faster)
+# Copy the pom.xml and download dependencies
+COPY pom.xml .
 RUN ./mvnw dependency:go-offline
 
-# Copy source code and build the application
+# Copy the source code and build the project
 COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
-# Expose port 8080 for Render
+# Expose port 8080
 EXPOSE 8080
 
-# Run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "target/expense-tracker-0.0.1-SNAPSHOT.jar"]
+# Run the built jar (wildcard works if version changes)
+ENTRYPOINT ["sh", "-c", "java -jar /app/target/*.jar"]
