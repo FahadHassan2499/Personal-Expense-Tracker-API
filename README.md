@@ -178,13 +178,7 @@ springdoc.swagger-ui.path=/swagger-ui.html
 - Add **Category-wise analytics API**  
 - Deploy on **Render / Railway / AWS Elastic Beanstalk**
 
----
 
-## 📸 Sample Screenshot
-
-> _(Optional: Add screenshot of Swagger UI here once pushed to GitHub)_
-
----
 
 
 
