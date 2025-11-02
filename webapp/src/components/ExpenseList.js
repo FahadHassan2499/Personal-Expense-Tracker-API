@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import API from "../services/api";
 import { FaTrash } from 'react-icons/fa';
 
 const ExpenseList = ({ expenses, fetchExpenses }) => {
   const deleteExpense = async (id) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/expenses/${id}`);
+      await API.delete(`/api/expenses/${id}`);
       fetchExpenses();
     } catch (error) {
       console.error('Error deleting expense:', error);

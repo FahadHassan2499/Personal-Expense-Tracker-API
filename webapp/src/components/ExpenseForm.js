@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import API from "../services/api";
 import axios from 'axios';
 
 const ExpenseForm = ({ fetchExpenses }) => {
@@ -17,7 +18,7 @@ const ExpenseForm = ({ fetchExpenses }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/expenses`, formData);
+      await API.post(`/api/expenses`, formData);
       fetchExpenses();
       setFormData({ title: '', description: '', category: '', amount: '', date: '' });
     } catch (error) {
