@@ -31,9 +31,9 @@ function App() {
     return token ? children : <Navigate to="/login" />;
   };
 
-  useEffect(() => {
-    fetchExpenses();
-  }, []);
+  // useEffect(() => {
+  //   fetchExpenses();
+  // }, []);
 
   return (
     <Router>
