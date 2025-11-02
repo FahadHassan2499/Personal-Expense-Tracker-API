@@ -1,37 +1,44 @@
 package com.example.expensetracker.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.annotation.Order;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.io.IOException;
 
-@Configuration
-public class CorsConfig {
+@Component
+@Order(0) // Highest priority — runs before Spring Security
+public class CorsConfig implements Filter {
 
-    @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public CorsFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
+    private static final String FRONTEND_URL = "https://personal-expense-tracker-api-frontend.onrender.com";
 
-        // exact origins — DO NOT use "*" when allowCredentials=true
-        config.setAllowedOrigins(List.of(
-                "https://personal-expense-tracker-api-frontend.onrender.com",
-                "http://localhost:3000"
-        ));
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+            throws IOException, ServletException {
 
-        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
-        config.setAllowedHeaders(List.of("Authorization","Content-Type","Accept","Origin"));
-        config.setExposedHeaders(List.of("Authorization","Content-Type"));
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        // Set CORS headers (same as your Node.js example)
+        response.setHeader("Access-Control-Allow-Origin", FRONTEND_URL);
+        response.setHeader("Vary", "Origin");
+        response.setHeader("Access-Control-Allow-Methods",
+                "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS,CONNECT,TRACE");
+        response.setHeader("Access-Control-Allow-Headers",
+                "Authorization,Content-Type,Accept,X-Requested-With,Origin,Access-Control-Request-Method,Access-Control-Request-Headers");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Private-Network", "true");
+        response.setHeader("Access-Control-Max-Age", "7200");
 
-        return new CorsFilter(source);
+        // Handle preflight OPTIONS request directly (no downstream processing)
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            return;
+        }
+
+        // Continue normal filter chain for other requests
+        chain.doFilter(req, res);
     }
 }
