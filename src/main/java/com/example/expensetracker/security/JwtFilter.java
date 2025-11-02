@@ -32,6 +32,12 @@ public class JwtFilter extends OncePerRequestFilter {
         String username = null;
         String token = null;
 
+        // allow preflight through without auth processing
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(token);
