@@ -18,7 +18,7 @@ const ExpenseForm = ({ fetchExpenses }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.post(`/api/expenses`, formData);
+      await API.post(`/expenses`, formData);
       fetchExpenses();
       setFormData({ title: '', description: '', category: '', amount: '', date: '' });
     } catch (error) {

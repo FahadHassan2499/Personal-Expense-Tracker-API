@@ -6,7 +6,7 @@ import { FaTrash } from 'react-icons/fa';
 const ExpenseList = ({ expenses, fetchExpenses }) => {
   const deleteExpense = async (id) => {
     try {
-      await API.delete(`/api/expenses/${id}`);
+      await API.delete(`/expenses/${id}`);
       fetchExpenses();
     } catch (error) {
       console.error('Error deleting expense:', error);
