@@ -12,7 +12,7 @@ import java.io.IOException;
 @Order(0) // Highest priority — runs before Spring Security
 public class CorsConfig implements Filter {
 
-    private static final String FRONTEND_URL = "https://personal-expense-tracker-api-frontend.onrender.com/add";
+    private static final String FRONTEND_URL = "https://personal-expense-tracker-api-frontend.onrender.com";
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
